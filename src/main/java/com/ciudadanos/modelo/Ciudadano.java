@@ -1,0 +1,110 @@
+package com.ciudadanos.modelo;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.persistence.PrePersist;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Ciudadano {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@NotBlank(message = "Debe ingresar su nombre")
+	private String nombre;
+
+	@NotEmpty(message = "Debe ingresar su email")
+	@Email
+	private String email;
+
+	@NotBlank(message = "Debe ingresar su celular")
+	private String celular;
+
+	@NotBlank(message = "Debe ingresar su domicilio")
+	private String domicilio;
+
+	@DateTimeFormat(iso = ISO.DATE)
+	@Past
+	@NotNull(message = "Debe ingresar su fecha de nacimiento")
+	private LocalDate fechaNacimiento;
+
+	private LocalDateTime fechaRegistro;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public String getDomicilio() {
+		return domicilio;
+	}
+
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public LocalDateTime getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(LocalDateTime fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	@PrePersist
+	public void asignarFechaRegistro() {
+		fechaRegistro = LocalDateTime.now();
+	}
+
+}
